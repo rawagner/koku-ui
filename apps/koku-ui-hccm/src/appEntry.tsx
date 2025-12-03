@@ -4,16 +4,15 @@
 import '@patternfly/patternfly/patternfly-addons.css';
 import './styles/global.css';
 
+import { getLocale } from '@koku-ui/i18n/i18n';
+import messages from '@koku-ui/locales/data.json';
+import { configureStore } from '@koku-ui/ui-lib-hccm/store';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import IntlProvider from '@redhat-cloud-services/frontend-components-translations/Provider';
-import { getLocale } from 'components/i18n';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-// eslint-disable-next-line no-restricted-imports
-import messages from '../locales/data.json';
 import App from './app';
-import { configureStore } from './store';
 
 const costStore = configureStore({
   // session: {

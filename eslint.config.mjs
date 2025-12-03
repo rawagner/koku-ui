@@ -149,10 +149,6 @@ export default [{
         'no-new-wrappers': 'error',
         'no-prototype-builtins': 'off',
 
-        'no-restricted-imports': ['error', {
-            patterns: ['../*/**'],
-        }],
-
         'no-shadow': 'error',
         'no-throw-literal': 'error',
         'no-trailing-spaces': 'off',
