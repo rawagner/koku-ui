@@ -5,24 +5,44 @@ import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
 const NotFound = lazy(() => import(/* webpackChunkName: "NotFound" */ '@koku-ui/ui-lib/components/page/notFound'));
 const OptimizationsBadgeStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsBadgeStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsBadgeStaging'
+    )
 );
 const OptimizationsBreakdownStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsBreakdownStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsBreakdownStaging'
+    )
 );
 const OptimizationsDetailsStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsDetailsStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsDetailsStaging'
+    )
 );
 const OptimizationsLinkStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsLinkStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsLinkStaging'
+    )
 );
 const OptimizationsSummaryStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsSummaryStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsSummaryStaging'
+    )
 );
 const OptimizationsTableStaging = lazy(
-  () => import(/* webpackChunkName: "recommendations" */ 'routes/staging/optimizations/optimizationsTableStaging')
+  () =>
+    import(
+      /* webpackChunkName: "recommendations" */ '@koku-ui/ui-lib-ros/routes/staging/optimizations/optimizationsTableStaging'
+    )
 );
-const Welcome = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/components/page/welcome/welcome'));
+const Welcome = lazy(
+  () => import(/* webpackChunkName: "ocpDetails" */ '@koku-ui/ui-lib-ros/routes/components/page/welcome/welcome')
+);
 
 const routes = {
   optimizationsBadge: {

@@ -4,15 +4,15 @@
 import '@patternfly/patternfly/patternfly-addons.css';
 import './styles/global.css';
 
+import { getLocale } from '@koku-ui/ui-lib-ros/components/i18n';
+import { rosStore } from '@koku-ui/ui-lib-ros/store';
 import NotificationsPortal from '@redhat-cloud-services/frontend-components-notifications/NotificationPortal';
 import IntlProvider from '@redhat-cloud-services/frontend-components-translations/Provider';
-import { getLocale } from 'components/i18n';
 import React from 'react';
 import { Provider } from 'react-redux';
 
 import messages from '../locales/data.json';
 import App from './app';
-import { rosStore } from './store';
 
 const AppEntry = () => {
   const locale = getLocale();

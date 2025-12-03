@@ -1,8 +1,8 @@
+import { featureToggleActions } from '@koku-ui/ui-lib-ros/store/featureToggle';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { useUnleashClient } from '@unleash/proxy-client-react';
 import { useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { featureToggleActions } from 'store/featureToggle';
 
 export const enum FeatureToggle {
   boxPlot = 'cost-management.ros.box-plot', // https://issues.redhat.com/browse/COST-4619

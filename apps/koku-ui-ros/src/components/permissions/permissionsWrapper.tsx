@@ -1,11 +1,16 @@
-import type { AccountSettings } from 'api/accountSettings';
-import { AccountSettingsType } from 'api/accountSettings';
-import type { Providers } from 'api/providers';
-import { ProviderType } from 'api/providers';
-import { getProvidersQuery } from 'api/queries/providersQuery';
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import type { UserAccess } from 'api/userAccess';
-import { UserAccessType } from 'api/userAccess';
+import type { AccountSettings } from '@koku-ui/api/accountSettings';
+import { AccountSettingsType } from '@koku-ui/api/accountSettings';
+import type { Providers } from '@koku-ui/api/providers';
+import { ProviderType } from '@koku-ui/api/providers';
+import { getProvidersQuery } from '@koku-ui/api/queries/providersQuery';
+import { getUserAccessQuery } from '@koku-ui/api/queries/userAccessQuery';
+import type { UserAccess } from '@koku-ui/api/userAccess';
+import { UserAccessType } from '@koku-ui/api/userAccess';
+import { accountSettingsActions, accountSettingsSelectors } from '@koku-ui/ui-lib-ros/store/accountSettings';
+import { createMapStateToProps, FetchStatus } from '@koku-ui/ui-lib-ros/store/common';
+import { providersActions, providersQuery, providersSelectors } from '@koku-ui/ui-lib-ros/store/providers';
+import { uiActions } from '@koku-ui/ui-lib-ros/store/ui';
+import { userAccessActions, userAccessQuery, userAccessSelectors } from '@koku-ui/ui-lib-ros/store/userAccess';
 import type { AxiosError } from 'axios';
 import { asyncComponent } from 'components/async';
 import { PageTitle } from 'components/pageTitle';
@@ -13,11 +18,6 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { accountSettingsActions, accountSettingsSelectors } from 'store/accountSettings';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { providersActions, providersQuery, providersSelectors } from 'store/providers';
-import { uiActions } from 'store/ui';
-import { userAccessActions, userAccessQuery, userAccessSelectors } from 'store/userAccess';
 
 const Permissions = asyncComponent(() => import(/* webpackChunkName: "permissions" */ './permissions') as any);
 

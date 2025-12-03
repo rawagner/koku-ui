@@ -19,6 +19,7 @@
     "paths": {
       "@koku-ui/ui-lib/*": ["../../../libs/ui-lib/src/*"],
       "@koku-ui/ui-lib-hccm/*": ["../../../libs/ui-lib-hccm/src/*"],
+      "@koku-ui/ui-lib-ros/*": ["../../../libs/ui-lib-ros/src/*"],
       "@koku-ui/api/*": ["../../../libs/api/src/*"],
       "@koku-ui/i18n/*": ["../../../libs/i18n/src/*"],
       "@koku-ui/locales/*": ["../../../libs/i18n/locales/*"],

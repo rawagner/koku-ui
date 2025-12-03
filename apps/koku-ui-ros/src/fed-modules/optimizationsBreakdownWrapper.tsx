@@ -1,20 +1,3 @@
-import React from 'react';
-import { OptimizationsBreakdown } from 'routes/optimizations/optimizationsBreakdown';
-
-import { OptimizationsWrapper } from './optimizationsWrapper';
-
-export interface OptimizationsBreakdownOwnProps {
-  // TBD...
-}
-
-type OptimizationsBreakdownProps = OptimizationsBreakdownOwnProps;
-
-const OptimizationsBreakdownWrapper: React.FC<OptimizationsBreakdownProps> = () => {
-  return (
-    <OptimizationsWrapper>
-      <OptimizationsBreakdown />
-    </OptimizationsWrapper>
-  );
-};
+import OptimizationsBreakdownWrapper from '@koku-ui/ui-lib-ros/fed-modules/optimizationsBreakdownWrapper';
 
 export default OptimizationsBreakdownWrapper;

@@ -1,5 +1,6 @@
 // Based on https://github.com/RedHatInsights/frontend-components/blob/master/packages/config/src/bin/dev.webpack.config.ts
 
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { GitRevisionPlugin } = require('git-revision-webpack-plugin');
 const path = require('path');
@@ -50,6 +51,7 @@ module.exports = {
    *
   ...(process.env.HMR && { _unstableHotReload: process.env.HMR === 'true' }),
    */
+  nodeModulesDirectories: '../../node_modules',
   /**
    * Config for federated modules
    */
@@ -86,7 +88,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(srcDir, 'locales'),
+          from: '../../libs/i18n/locales',
           to: path.join(distDir, 'locales'),
         },
       ],
@@ -99,9 +101,11 @@ module.exports = {
   ],
   resolve: {
     modules: [srcDir, path.resolve(__dirname, '../../node_modules')],
-    alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
-    },
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, './tsconfig.json'),
+      }),
+    ],
   },
   routes: {
     /**

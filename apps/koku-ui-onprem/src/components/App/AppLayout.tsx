@@ -1,3 +1,4 @@
+import { Routes } from '@koku-ui/ui-lib-hccm/routes';
 import {
   Masthead,
   MastheadBrand,
@@ -8,23 +9,46 @@ import {
   NavItem as PFNavItem,
   NavList,
   Page,
+  PageSection,
   PageSidebar,
   PageSidebarBody,
   PageToggleButton,
 } from '@patternfly/react-core';
 import React from 'react';
-import { Link, Outlet, useMatch } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 
 export const routes = [
   {
     path: '/',
-    element: <div>Overview page</div>,
     title: 'Overview',
   },
   {
     path: '/optimizations',
-    element: <div>Optimizations page</div>,
     title: 'Optimizations',
+  },
+  {
+    path: '/ocp',
+    title: 'OpenShift',
+  },
+  {
+    path: '/aws',
+    title: 'Amazon Web Services',
+  },
+  {
+    path: '/gcp',
+    title: 'Google Cloud',
+  },
+  {
+    path: '/azure',
+    title: 'Microsoft Azure',
+  },
+  {
+    path: '/explorer',
+    title: 'Cost Explorer',
+  },
+  {
+    path: '/settings',
+    title: 'Settings',
   },
 ];
 
@@ -73,8 +97,16 @@ const AppLayout = () => {
   );
 
   return (
-    <Page mainContainerId="primary-app-container" isManagedSidebar masthead={masthead} sidebar={sidebar}>
-      <Outlet />
+    <Page
+      mainContainerId="primary-app-container"
+      isManagedSidebar
+      masthead={masthead}
+      sidebar={sidebar}
+      isContentFilled
+    >
+      <PageSection isFilled padding={{ default: 'noPadding' }}>
+        <Routes />
+      </PageSection>
     </Page>
   );
 };

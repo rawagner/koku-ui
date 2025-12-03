@@ -1,9 +1,9 @@
-import messages from 'locales/messages';
+import messages from '@koku-ui/i18n/locales/messages';
+import { formatPath, usePathname } from '@koku-ui/ui-lib-ros/utils/paths';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { routes } from 'routes';
-import { formatPath, usePathname } from 'utils/paths';
 
 interface PageTitleOwnProps {
   children?: React.ReactNode;

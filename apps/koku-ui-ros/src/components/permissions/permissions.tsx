@@ -1,18 +1,18 @@
-import { getUserAccessQuery } from 'api/queries/userAccessQuery';
-import type { UserAccess } from 'api/userAccess';
-import { UserAccessType } from 'api/userAccess';
+import { getUserAccessQuery } from '@koku-ui/api/queries/userAccessQuery';
+import type { UserAccess } from '@koku-ui/api/userAccess';
+import { UserAccessType } from '@koku-ui/api/userAccess';
+import { Loading } from '@koku-ui/ui-lib-ros/routes/components/page/loading';
+import { NotAuthorized } from '@koku-ui/ui-lib-ros/routes/components/page/notAuthorized';
+import { NotAvailable } from '@koku-ui/ui-lib-ros/routes/components/page/notAvailable';
+import { createMapStateToProps, FetchStatus } from '@koku-ui/ui-lib-ros/store/common';
+import { userAccessQuery, userAccessSelectors } from '@koku-ui/ui-lib-ros/store/userAccess';
+import { formatPath, usePathname } from '@koku-ui/ui-lib-ros/utils/paths';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { routes } from 'routes';
-import { Loading } from 'routes/components/page/loading';
-import { NotAuthorized } from 'routes/components/page/notAuthorized';
-import { NotAvailable } from 'routes/components/page/notAvailable';
-import { createMapStateToProps, FetchStatus } from 'store/common';
-import { userAccessQuery, userAccessSelectors } from 'store/userAccess';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
-import { formatPath, usePathname } from 'utils/paths';
 import { hasRosAccess } from 'utils/userAccess';
 
 interface PermissionsOwnProps extends ChromeComponentProps {

@@ -39,6 +39,7 @@ export interface Query {
   start_date?: any;
   state?: any;
   tabKey?: number;
+  isOptimizationsDetails?: string;
 }
 
 // Converts filter_by props to filter props

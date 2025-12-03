@@ -20,6 +20,7 @@ module.exports = {
     '^@koku-ui/utils/(.*)$': '<rootDir>/../../libs/utils/src/$1',
     '^@koku-ui/ui-lib/(.*)$': '<rootDir>/../../libs/ui-lib/src/$1',
     '^@koku-ui/ui-lib-hccm/(.*)$': '<rootDir>/../../libs/ui-lib-hccm/src/$1',
+    '^@koku-ui/ui-lib-ros/(.*)$': '<rootDir>/../../libs/ui-lib-ros/src/$1',
   },
   preset: 'ts-jest',
   roots: ['<rootDir>/src/'],

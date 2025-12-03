@@ -3,10 +3,16 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import path from 'path';
 import TerserJSPlugin from 'terser-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import type { Configuration } from 'webpack';
+import { DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
 
 const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'];
+
+const isProduction = NODE_ENV === 'production';
+const styleLoader = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
+const svgIncludePaths = [path.resolve(__dirname, 'src'), path.resolve(__dirname, '../../libs')];
 
 const config: Configuration & {
   devServer?: WebpackDevServerConfiguration;
@@ -28,6 +34,18 @@ const config: Configuration & {
       writeToDisk: true,
       index: 'index.html',
     },
+    proxy: [
+      {
+        context: ['/api/cost-management/v1'],
+        target: '<backend>',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: { '^/api/cost-management/v1': '' },
+        headers: {
+          Authorization: 'Bearer <token>',
+        },
+      },
+    ],
   },
   module: {
     rules: [
@@ -45,7 +63,16 @@ const config: Configuration & {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [styleLoader, 'css-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [styleLoader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/i,
+        type: 'asset/resource',
+        include: svgIncludePaths,
       },
       {
         test: /\.(svg|ttf|eot|woff|woff2)$/,
@@ -55,34 +82,16 @@ const config: Configuration & {
         include: [
           // local node_modules (when not hoisted)
           path.resolve(__dirname, 'node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            'node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
+          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(__dirname, 'node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/fonts'),
           path.resolve(__dirname, 'node_modules/@patternfly/patternfly/assets/pficon'),
           // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly/dist/fonts'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/fonts'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/pficon'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/pficon'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/fonts'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/pficon'),
         ],
       },
       {
@@ -109,18 +118,9 @@ const config: Configuration & {
           ),
           // workspace root node_modules (hoisted deps)
           path.resolve(__dirname, '../../node_modules/patternfly'),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/patternfly/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-styles/css/assets/images'
-          ),
-          path.resolve(
-            __dirname,
-            '../../node_modules/@patternfly/react-core/dist/styles/assets/images'
-          ),
+          path.resolve(__dirname, '../../node_modules/@patternfly/patternfly/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-styles/css/assets/images'),
+          path.resolve(__dirname, '../../node_modules/@patternfly/react-core/dist/styles/assets/images'),
         ],
       },
     ],
@@ -136,14 +136,20 @@ const config: Configuration & {
       template: path.resolve(__dirname, 'src', 'index.html'),
       filename: 'index.html',
     }),
+    new DefinePlugin({
+      'process.env.KOKU_UI_COMMITHASH': JSON.stringify('foo'),
+      'process.env.KOKU_UI_PKGNAME': JSON.stringify('foo'),
+    }),
   ],
   resolve: {
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, './tsconfig.json'),
+      }),
+    ],
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
     symlinks: false,
     cacheWithContext: false,
-    alias: {
-      '@koku-ui/ui-lib': path.resolve(__dirname, '../../libs/ui-lib/src'),
-    },
   },
   watchOptions: {
     followSymlinks: true,
@@ -159,7 +165,7 @@ const config: Configuration & {
 };
 
 /* Production settings */
-if (NODE_ENV === 'production') {
+if (isProduction) {
   (config.optimization || {}).minimizer = [
     new TerserJSPlugin({}),
     new CssMinimizerPlugin({
@@ -172,6 +178,7 @@ if (NODE_ENV === 'production') {
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash].css',
       chunkFilename: '[name].bundle-[contenthash].css',
+      ignoreOrder: true,
     })
   );
   config.devtool = 'source-map';
