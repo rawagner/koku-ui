@@ -8,6 +8,11 @@ import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+// @ts-ignore
+import { PacProxyAgent } from 'pac-proxy-agent';
+
+const pacAgent = new PacProxyAgent(process.env.PAC_URL, { rejectUnauthorized: false });
+
 
 let setupMiddlewares: WebpackDevServerConfiguration['setupMiddlewares'] = undefined;
 let proxyHeaders: Record<string, string> | undefined = undefined;
@@ -131,7 +136,12 @@ const config: Configuration & {
             changeOrigin: true,
             secure: false,
             pathRewrite: { '^/api/cost-management/v1': '' },
-            ...(proxyHeaders && { headers: proxyHeaders }),
+            // Pass both HTTP and HTTPS traffic through the PAC agent
+            agent: pacAgent,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (X11; Fedora; Linux x86_64)',
+              ...(proxyHeaders),
+            }
           },
       ...(rbacProxyTarget
         ? [
